@@ -1,0 +1,174 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  color: #111827;
+}
+
+@layer components {
+  .form-input {
+    @apply w-full rounded-md border border-white/40 bg-white/70 px-2 py-1.5 text-xs text-slate-900 placeholder:text-slate-500 focus:border-slate-500 focus:outline-none;
+  }
+
+  .btn-primary {
+    @apply rounded-lg bg-slate-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-800;
+  }
+
+  .btn-secondary {
+    @apply rounded-lg border border-slate-400 bg-white/80 px-4 py-2 text-sm font-semibold text-slate-900 transition hover:bg-white;
+  }
+
+  .pedigree-box {
+    @apply rounded-none border-2 border-pedigree-border px-2 py-1.5 text-slate-900;
+    box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.28);
+    overflow: hidden;
+  }
+
+  .pedigree-box-body {
+    overflow: hidden;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    padding-bottom: 5px;
+  }
+
+  /* Extra breathing room only during html2canvas export (prevents last-line clipping in PDF). */
+  .exporting-pdf .pedigree-box-body {
+    padding-bottom: 10px;
+  }
+
+  .highlight-male {
+    @apply bg-pedigree-male;
+  }
+
+  .highlight-female {
+    @apply bg-pedigree-female;
+  }
+
+  .highlight-orange {
+    @apply bg-pedigree-orange;
+  }
+}
+
+.preview-shell {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  min-width: 0;
+}
+
+.preview-scale {
+  transform-origin: top center;
+  width: fit-content;
+}
+
+.exporting-pdf .preview-scale {
+  transform: none !important;
+}
+
+.pedigree-certificate {
+  position: relative;
+  width: 210mm;
+  height: 297mm;
+  background: #ffffff;
+  padding: 14mm 3.5mm 7mm 3.5mm;
+  border: 1px solid #d1d5db;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #111;
+}
+
+.pedigree-certificate,
+.pedigree-certificate * {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.certificate-title {
+  text-align: center;
+  margin: 0 0 4mm;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.certificate-grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: 47mm 40mm 52mm 52mm;
+  gap: 4mm;
+}
+
+.col-main,
+.col-parents,
+.col-grandparents,
+.col-lineage {
+  position: relative;
+}
+
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 0;
+  }
+
+  html,
+  body {
+    background: #fff;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .pedigree-certificate,
+  .pedigree-certificate * {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  main {
+    padding: 0 !important;
+    background: #fff !important;
+  }
+
+  .print-only-area {
+    padding: 0 !important;
+    border: none !important;
+    background: transparent !important;
+    border-radius: 0 !important;
+    overflow: visible !important;
+  }
+
+  .preview-shell {
+    min-width: 0;
+  }
+
+  .preview-scale {
+    transform: none !important;
+  }
+
+  .pedigree-certificate {
+    width: 210mm;
+    height: 297mm;
+    border: none;
+    box-shadow: none;
+    margin: 0 auto;
+    break-inside: avoid;
+    page-break-inside: avoid;
+
+    /* Slight shrink to fit common printer non-printable margins */
+    transform: scale(0.965);
+    transform-origin: top center;
+  }
+
+  /* Ensure absolutely-positioned connector overlay prints */
+  .pedigree-certificate svg {
+    display: block !important;
+  }
+}
