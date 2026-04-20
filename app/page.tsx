@@ -120,12 +120,84 @@ export default function HomePage() {
     window.dispatchEvent(new Event("pdf-export"));
     await new Promise<void>((resolve) => requestAnimationFrame(() => setTimeout(() => resolve(), 80)));
 
-    const canvas = await html2canvas(previewRef.current, { scale: 3.125, backgroundColor: "#ffffff", useCORS: true });
+    // Create a high-resolution off-screen A4 clone and inline box-shadows so html2canvas captures them.
+    const targetW = 2480;
+    const targetH = 3508;
+    const original = previewRef.current;
+    const clone = original.cloneNode(true) as HTMLElement;
+    clone.style.width = `${targetW}px`;
+    clone.style.height = `${targetH}px`;
+    clone.style.transform = "none";
+    clone.style.boxSizing = "border-box";
+    clone.style.background = "#ffffff";
+
+    clone.querySelectorAll('svg').forEach((s) => {
+      try { s.setAttribute('width', `${targetW}`); s.setAttribute('height', `${targetH}`); } catch (e) {}
+    });
+
+    const container = document.createElement('div');
+    container.style.position = 'fixed'; container.style.left = '-10000px'; container.style.top = '0'; container.style.width = `${targetW}px`; container.style.height = `${targetH}px`; container.style.overflow = 'visible';
+    container.appendChild(clone);
+    document.body.appendChild(container);
+
+    try {
+      // Create literal DOM nodes for shadows since html2canvas drops or miniaturizes CSS shadows on scaled clones
+      const cloneBoxes = Array.from(clone.querySelectorAll('.pedigree-box')) as HTMLElement[];
+      const scaleFactor = targetW / original.offsetWidth; // ~3.125
+      const shadowOffset = Math.round(3 * scaleFactor); // scale up the 3px shadow
+
+      for (const cl of cloneBoxes) {
+        const shadowDiv = document.createElement('div');
+        shadowDiv.style.position = 'absolute';
+        shadowDiv.style.left = (cl.offsetLeft + shadowOffset) + 'px';
+        shadowDiv.style.top = (cl.offsetTop + shadowOffset) + 'px';
+        shadowDiv.style.width = cl.offsetWidth + 'px';
+        shadowDiv.style.height = cl.offsetHeight + 'px';
+        shadowDiv.style.backgroundColor = 'rgba(0, 0, 0, 0.28)';
+        // Insert behind the cloned box in the DOM structure
+        if (cl.parentNode) {
+          cl.parentNode.insertBefore(shadowDiv, cl);
+        }
+        // Remove the CSS shadow so we don't render it twice
+        cl.style.boxShadow = 'none';
+      }
+    } catch (e) {
+      // ignore mapping errors
+    }
+
+    try {
+      const canvas = await html2canvas(clone, { scale: 1, backgroundColor: '#ffffff', useCORS: true, allowTaint: true, width: targetW, height: targetH, windowWidth: targetW, windowHeight: targetH });
+      const image = canvas.toDataURL('image/png');
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      pdf.addImage(image, 'PNG', 0, 0, 210, 297, undefined, 'FAST');
+      pdf.save(`pedigree-${Date.now()}.pdf`);
+    } finally {
+      document.body.removeChild(container);
+    }
+
+    document.documentElement.classList.remove("exporting-pdf");
+    window.dispatchEvent(new Event("pdf-export"));
+  };
+
+  // Original PDF export preserved for users who prefer previous output format
+  const handleDownloadPdfOriginal = async () => {
+    if (!previewRef.current) return;
+    document.documentElement.classList.add("exporting-pdf");
+    window.dispatchEvent(new Event("pdf-export"));
+    await new Promise<void>((resolve) => requestAnimationFrame(() => setTimeout(() => resolve(), 80)));
+    const canvas = await html2canvas(previewRef.current, {
+      scale: 3.125,
+      backgroundColor: "#ffffff",
+      useCORS: true,
+      onclone: (doc) => {
+        // Ensure export-only CSS (drop-shadow fallback) is applied inside the cloned document.
+        doc.documentElement.classList.add("exporting-pdf");
+      }
+    });
     const image = canvas.toDataURL("image/png");
     const pdf = new jsPDF("p", "mm", "a4");
     pdf.addImage(image, "PNG", 0, 0, 210, 297, undefined, "FAST");
     pdf.save(`pedigree-${Date.now()}.pdf`);
-
     document.documentElement.classList.remove("exporting-pdf");
     window.dispatchEvent(new Event("pdf-export"));
   };
@@ -144,7 +216,7 @@ export default function HomePage() {
               onResetTemplate={() => dispatch({ type: "RESET_TEMPLATE" })}
               onClear={() => dispatch({ type: "CLEAR_FORM" })}
               onPrint={handlePrint}
-              onDownloadPdf={handleDownloadPdf}
+              onDownloadPdf={handleDownloadPdfOriginal}
               onSave={handleSave}
               onLoad={handleLoad}
             />

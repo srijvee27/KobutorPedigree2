@@ -27,7 +27,7 @@ body {
   .pedigree-box {
     @apply rounded-none border-2 border-pedigree-border px-2 py-1.5 text-slate-900;
     box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.28);
-    overflow: hidden;
+    overflow: visible; /* Prevents shadow clipping */
   }
 
   .pedigree-box-body {
@@ -98,8 +98,9 @@ body {
 .certificate-grid {
   position: relative;
   display: grid;
-  grid-template-columns: 47mm 40mm 52mm 52mm;
-  gap: 4mm;
+  /* Defining the new shrunken widths explicitly so gaps distribute perfectly */
+  grid-template-columns: 47mm 40mm 42mm 44mm;
+  justify-content: space-between; /* This automatically creates consistent equal gaps across the entire certificate */
 }
 
 .col-main,

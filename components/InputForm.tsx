@@ -9,7 +9,7 @@ type InputFormProps = {
   dispatch: Dispatch<PedigreeAction>;
 };
 
-type PersonPath = "main" | "father" | "mother" | "grandparents.fatherFather" | "grandparents.fatherMother" | "grandparents.motherFather" | "grandparents.motherMother";
+type PersonPath = string;
 
 type PersonSectionProps = {
   label: string;
@@ -142,10 +142,29 @@ export default function InputForm({ data, dispatch }: InputFormProps) {
       <section className="rounded-xl border border-white/35 bg-white/25 p-3">
         <h3 className="mb-2 text-sm font-semibold text-slate-900">Grandparents (Expandable)</h3>
         <div className="space-y-2">
-          <PersonSection label="Father's Father" path="grandparents.fatherFather" person={data.grandparents.fatherFather} dispatch={dispatch} defaultOpen={false} />
-          <PersonSection label="Father's Mother" path="grandparents.fatherMother" person={data.grandparents.fatherMother} dispatch={dispatch} defaultOpen={false} />
-          <PersonSection label="Mother's Father" path="grandparents.motherFather" person={data.grandparents.motherFather} dispatch={dispatch} defaultOpen={false} />
-          <PersonSection label="Mother's Mother" path="grandparents.motherMother" person={data.grandparents.motherMother} dispatch={dispatch} defaultOpen={false} />
+          <PersonSection label="Father's Father" path="grandparents.fatherFather" person={data.grandparents.fatherFather} dispatch={dispatch} defaultOpen={true} />
+          <div className="pl-3 space-y-2">
+            <PersonSection label="Father's Father's Father" path="lineage.0" person={data.lineage[0]} dispatch={dispatch} defaultOpen={true} />
+            <PersonSection label="Father's Father's Mother" path="lineage.1" person={data.lineage[1]} dispatch={dispatch} defaultOpen={true} />
+          </div>
+
+          <PersonSection label="Father's Mother" path="grandparents.fatherMother" person={data.grandparents.fatherMother} dispatch={dispatch} defaultOpen={true} />
+          <div className="pl-3 space-y-2">
+            <PersonSection label="Father's Mother's Father" path="lineage.2" person={data.lineage[2]} dispatch={dispatch} defaultOpen={true} />
+            <PersonSection label="Father's Mother's Mother" path="lineage.3" person={data.lineage[3]} dispatch={dispatch} defaultOpen={true} />
+          </div>
+
+          <PersonSection label="Mother's Father" path="grandparents.motherFather" person={data.grandparents.motherFather} dispatch={dispatch} defaultOpen={true} />
+          <div className="pl-3 space-y-2">
+            <PersonSection label="Mother's Father's Father" path="lineage.4" person={data.lineage[4]} dispatch={dispatch} defaultOpen={true} />
+            <PersonSection label="Mother's Father's Mother" path="lineage.5" person={data.lineage[5]} dispatch={dispatch} defaultOpen={true} />
+          </div>
+
+          <PersonSection label="Mother's Mother" path="grandparents.motherMother" person={data.grandparents.motherMother} dispatch={dispatch} defaultOpen={true} />
+          <div className="pl-3 space-y-2">
+            <PersonSection label="Mother's Mother's Father" path="lineage.6" person={data.lineage[6]} dispatch={dispatch} defaultOpen={true} />
+            <PersonSection label="Mother's Mother's Mother" path="lineage.7" person={data.lineage[7]} dispatch={dispatch} defaultOpen={true} />
+          </div>
         </div>
       </section>
     </div>
