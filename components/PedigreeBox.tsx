@@ -83,7 +83,7 @@ export default function PedigreeBox({ title, subtitle, tone = "default", classNa
 
   return (
     <article ref={articleRef} className={`pedigree-box relative ${toneClass} ${className}`}>
-      <h4 className="text-[12px] font-bold uppercase tracking-[0.01em] text-[#b85757]">{title || "-"}</h4>
+      <h4 className="text-[12px] font-bold uppercase tracking-[0.01em] text-black">{title || "-"}</h4>
       <div ref={bodyRef} className="pedigree-box-body" style={{ fontSize: `${bodyFontPx}px` }}>
         {subtitle ? <p className="mt-0.5 font-semibold leading-tight">{subtitle}</p> : null}
         {children ? <div className="mt-1 space-y-0.5 leading-tight">{children}</div> : null}
