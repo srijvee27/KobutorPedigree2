@@ -18,6 +18,7 @@ export type ContactBlock = {
   addressLine1: string;
   addressLine2: string;
   phone: string;
+  email: string;
 };
 
 export type PedigreeData = {

@@ -7,8 +7,8 @@ const config: Config = {
       colors: {
         pedigree: {
           border: "#2f2f2f",
-          male: "#8ce6c1",
-          female: "#bfe4ff",
+          male: "#5B7E3C",
+          female: "#427AB5",
           orange: "#ffe3d1",
           gray: "#f1f2f3"
         }

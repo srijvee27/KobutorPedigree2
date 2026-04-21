@@ -19,7 +19,7 @@ export default function PedigreeBox({ title, subtitle, tone = "default", classNa
   const toneClass = tone === "male" ? "highlight-male" : tone === "female" ? "highlight-female" : tone === "orange" ? "highlight-orange" : "bg-white";
   const articleRef = useRef<HTMLElement | null>(null);
   const bodyRef = useRef<HTMLDivElement | null>(null);
-  const [bodyFontPx, setBodyFontPx] = useState(11);
+  const [bodyFontPx, setBodyFontPx] = useState(13);
 
   useEffect(() => {
     const article = articleRef.current;
@@ -36,7 +36,7 @@ export default function PedigreeBox({ title, subtitle, tone = "default", classNa
       const safetyPx = exportingPdf ? 10 : 5;
       const available = Math.max(0, article.clientHeight - body.offsetTop - paddingBottom - safetyPx);
 
-      const base = 11;
+      const base = 13;
       if (available <= 0) {
         setBodyFontPx(base);
         return;

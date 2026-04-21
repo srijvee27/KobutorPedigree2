@@ -133,6 +133,12 @@ export default function InputForm({ data, dispatch }: InputFormProps) {
             className="form-input"
             placeholder="Phone (without Tel:)"
           />
+          <input
+            value={data.contact.email}
+            onChange={(e) => dispatch({ type: "SET_FIELD", path: "contact.email", value: e.target.value })}
+            className="form-input"
+            placeholder="Email"
+          />
         </div>
       </section>
 

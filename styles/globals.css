@@ -90,17 +90,23 @@ body {
 .certificate-title {
   text-align: center;
   margin: 0 0 4mm;
-  font-size: 12px;
+  font-size: 16px;
   font-weight: 700;
   letter-spacing: 0.01em;
+  color: #b85757;
 }
 
 .certificate-grid {
   position: relative;
   display: grid;
-  /* Defining the new shrunken widths explicitly so gaps distribute perfectly */
-  grid-template-columns: 47mm 40mm 42mm 44mm;
+  /* First column width adjusted to fit box in marked area */
+  grid-template-columns: 55mm 40mm 42mm 44mm;
   justify-content: space-between; /* This automatically creates consistent equal gaps across the entire certificate */
+}
+
+.certificate-contact {
+  font-size: 12px;
+  line-height: 1.3;
 }
 
 .col-main,

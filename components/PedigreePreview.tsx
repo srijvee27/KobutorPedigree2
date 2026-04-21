@@ -293,8 +293,8 @@ export default function PedigreePreview({ data, previewRef }: PedigreePreviewPro
   return (
     <div ref={shellRef} className="preview-shell">
       <div className="preview-scale" style={{ transform: `scale(${screenScale})` }}>
-        <div ref={previewRef} id="pedigree-print-area" className="pedigree-certificate">
-          <div ref={canvasRef} className="relative h-full w-full">
+      <div ref={previewRef} id="pedigree-print-area" className="pedigree-certificate flex flex-col">
+        <div ref={canvasRef} className="relative h-full w-full flex-1">
           <svg
             className="absolute inset-0 z-[1] pointer-events-none"
             width={geometry.width}
@@ -313,9 +313,9 @@ export default function PedigreePreview({ data, previewRef }: PedigreePreviewPro
 
           <h1 className="certificate-title relative z-10">PEDIGREE FOR PIGEON: {data.main.ringId || "-"}</h1>
 
-          <div className="certificate-grid relative z-10">
+          <div className="certificate-grid relative z-10 mt-16">
             <div className="col-main">
-              <div className="mb-4 h-[185px] w-[175px] overflow-hidden border-2 border-slate-300 bg-white">
+              <div className="mb-2 h-[185px] w-[175px] overflow-hidden border-2 border-slate-300 bg-white">
                 {data.imageDataUrl ? (
                   <img src={data.imageDataUrl} alt="Main pigeon" className="h-full w-full object-cover" />
                 ) : (
@@ -324,25 +324,18 @@ export default function PedigreePreview({ data, previewRef }: PedigreePreviewPro
               </div>
 
               <div ref={setBoxRef("main")} className="relative">
-                <PedigreeBox title={data.main.ringId} subtitle={data.main.name} tone={sexTone(data.main.ringId)} className="h-[445px]">
+                <PedigreeBox title={data.main.ringId} subtitle={data.main.name} tone={sexTone(data.main.ringId)} className="h-[520px]">
                   <p>{data.main.color}</p>
                   <p>{data.main.owner}</p>
                   {data.main.notes ? <p className="pt-1 font-semibold whitespace-pre-line">{data.main.notes}</p> : null}
                   {renderAchievements(data.main)}
                 </PedigreeBox>
               </div>
-
-              <div className="mt-4 text-[12px] leading-snug">
-                <p className="font-bold">{data.contact.name || data.main.owner || "Owner Name"}</p>
-                {data.contact.addressLine1 ? <p>{data.contact.addressLine1}</p> : null}
-                {data.contact.addressLine2 ? <p>{data.contact.addressLine2}</p> : null}
-                {data.contact.phone ? <p className="font-semibold text-[#b85757]">Tel: {data.contact.phone}</p> : null}
-              </div>
             </div>
 
-            <div className="col-parents flex flex-col gap-4">
-              <div ref={setBoxRef("father")} className="relative">
-                <PedigreeBox title={data.father.ringId} subtitle={data.father.name} tone={sexTone(data.father.ringId)} className="h-[405px]">
+            <div className="col-parents flex flex-col gap-0">
+              <div ref={setBoxRef("father")} className="relative mt-0">
+                <PedigreeBox title={data.father.ringId} subtitle={data.father.name} tone={sexTone(data.father.ringId)} className="h-[406px]">
                   <p>{data.father.color}</p>
                   <p>{data.father.owner}</p>
                   {data.father.notes ? <p className="pt-1 font-semibold whitespace-pre-line">{data.father.notes}</p> : null}
@@ -350,8 +343,8 @@ export default function PedigreePreview({ data, previewRef }: PedigreePreviewPro
                 </PedigreeBox>
               </div>
 
-              <div ref={setBoxRef("mother")} className="relative">
-                <PedigreeBox title={data.mother.ringId} subtitle={data.mother.name} tone={sexTone(data.mother.ringId)} className="h-[405px]">
+              <div ref={setBoxRef("mother")} className="relative mt-6">
+                <PedigreeBox title={data.mother.ringId} subtitle={data.mother.name} tone={sexTone(data.mother.ringId)} className="h-[406px]">
                   <p>{data.mother.color}</p>
                   <p>{data.mother.owner}</p>
                   {data.mother.notes ? <p className="pt-1 font-semibold whitespace-pre-line">{data.mother.notes}</p> : null}
@@ -360,9 +353,9 @@ export default function PedigreePreview({ data, previewRef }: PedigreePreviewPro
               </div>
             </div>
 
-            <div className="col-grandparents flex flex-col gap-3">
+            <div className="col-grandparents flex flex-col gap-2">
               <div ref={setBoxRef("fatherFather")} className="relative">
-                <PedigreeBox title={data.grandparents.fatherFather.ringId} subtitle={data.grandparents.fatherFather.name} tone={sexTone(data.grandparents.fatherFather.ringId)} className="h-[195px]">
+                <PedigreeBox title={data.grandparents.fatherFather.ringId} subtitle={data.grandparents.fatherFather.name} tone={sexTone(data.grandparents.fatherFather.ringId)} className="h-[202px]">
                   <p>{data.grandparents.fatherFather.color}</p>
                   <p>{data.grandparents.fatherFather.owner}</p>
                   {data.grandparents.fatherFather.notes ? <p className="font-semibold whitespace-pre-line">{data.grandparents.fatherFather.notes}</p> : null}
@@ -370,7 +363,7 @@ export default function PedigreePreview({ data, previewRef }: PedigreePreviewPro
                 </PedigreeBox>
               </div>
               <div ref={setBoxRef("fatherMother")} className="relative">
-                <PedigreeBox title={data.grandparents.fatherMother.ringId} subtitle={data.grandparents.fatherMother.name} tone={sexTone(data.grandparents.fatherMother.ringId)} className="h-[195px]">
+                <PedigreeBox title={data.grandparents.fatherMother.ringId} subtitle={data.grandparents.fatherMother.name} tone={sexTone(data.grandparents.fatherMother.ringId)} className="h-[202px]">
                   <p>{data.grandparents.fatherMother.color}</p>
                   <p>{data.grandparents.fatherMother.owner}</p>
                   {data.grandparents.fatherMother.notes ? <p className="font-semibold whitespace-pre-line">{data.grandparents.fatherMother.notes}</p> : null}
@@ -378,7 +371,7 @@ export default function PedigreePreview({ data, previewRef }: PedigreePreviewPro
                 </PedigreeBox>
               </div>
               <div ref={setBoxRef("motherFather")} className="relative">
-                <PedigreeBox title={data.grandparents.motherFather.ringId} subtitle={data.grandparents.motherFather.name} tone={sexTone(data.grandparents.motherFather.ringId)} className="h-[195px]">
+                <PedigreeBox title={data.grandparents.motherFather.ringId} subtitle={data.grandparents.motherFather.name} tone={sexTone(data.grandparents.motherFather.ringId)} className="h-[202px]">
                   <p>{data.grandparents.motherFather.color}</p>
                   <p>{data.grandparents.motherFather.owner}</p>
                   {data.grandparents.motherFather.notes ? <p className="font-semibold whitespace-pre-line">{data.grandparents.motherFather.notes}</p> : null}
@@ -386,7 +379,7 @@ export default function PedigreePreview({ data, previewRef }: PedigreePreviewPro
                 </PedigreeBox>
               </div>
               <div ref={setBoxRef("motherMother")} className="relative">
-                <PedigreeBox title={data.grandparents.motherMother.ringId} subtitle={data.grandparents.motherMother.name} tone={sexTone(data.grandparents.motherMother.ringId)} className="h-[195px]">
+                <PedigreeBox title={data.grandparents.motherMother.ringId} subtitle={data.grandparents.motherMother.name} tone={sexTone(data.grandparents.motherMother.ringId)} className="h-[202px]">
                   <p>{data.grandparents.motherMother.color}</p>
                   <p>{data.grandparents.motherMother.owner}</p>
                   {data.grandparents.motherMother.notes ? <p className="font-semibold whitespace-pre-line">{data.grandparents.motherMother.notes}</p> : null}
@@ -395,10 +388,10 @@ export default function PedigreePreview({ data, previewRef }: PedigreePreviewPro
               </div>
             </div>
 
-            <div className="col-lineage flex flex-col gap-3">
+            <div className="col-lineage flex flex-col gap-2">
               {rightColumn.map((person, index) => (
                 <div key={`${person.ringId}-${index}`} ref={setBoxRef(`lineage${index}` as BoxId)} className="relative">
-                  <PedigreeBox title={person.ringId} subtitle={person.name} tone={sexTone(person.ringId)} className="h-[94px]">
+                  <PedigreeBox title={person.ringId} subtitle={person.name} tone={sexTone(person.ringId)} className="h-[100px]">
                     {person.color ? <p>{person.color}</p> : null}
                     {person.owner ? <p>{person.owner}</p> : null}
                     {person.notes ? <p className="font-semibold whitespace-pre-line">{person.notes}</p> : null}
@@ -408,6 +401,14 @@ export default function PedigreePreview({ data, previewRef }: PedigreePreviewPro
               ))}
             </div>
           </div>
+          </div>
+
+          <div className="certificate-contact px-3.5 pb-7 mt-auto">
+            <p className="font-bold">{data.contact.name || data.main.owner || "Owner Name"}</p>
+            {data.contact.addressLine1 ? <p>{data.contact.addressLine1}</p> : null}
+            {data.contact.addressLine2 ? <p>{data.contact.addressLine2}</p> : null}
+            {data.contact.phone ? <p className="font-semibold text-[#b85757]">Tel: {data.contact.phone}</p> : null}
+            {data.contact.email ? <p className="font-semibold text-[#b85757]">Email: {data.contact.email}</p> : null}
           </div>
         </div>
       </div>

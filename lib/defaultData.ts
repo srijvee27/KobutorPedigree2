@@ -103,7 +103,8 @@ export const TEMPLATE_DATA: PedigreeData = {
     name: "Zakir Hossain",
     addressLine1: "Add: 41/41 Kajla Noyanogo",
     addressLine2: "Jatrabari, Dhaka 1236",
-    phone: "+880 18191-57737"
+    phone: "+880 18191-57737",
+    email: ""
   },
   lineage: [
     {
@@ -198,7 +199,8 @@ export const EMPTY_DATA: PedigreeData = {
     name: "",
     addressLine1: "",
     addressLine2: "",
-    phone: ""
+    phone: "",
+    email: ""
   },
   imageDataUrl: ""
 };
