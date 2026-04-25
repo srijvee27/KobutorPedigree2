@@ -38,3 +38,7 @@ Production-ready Next.js (App Router) pedigree certificate generator with:
 - `Print / Save as PDF` button:
   - Generates a downloadable A4 PDF via `html2canvas + jsPDF`.
   - Opens print dialog with `@media print` styles.
+
+## 5) Screenshot
+
+![Pigeon Pedigree Generator](public/Screenshot_20260425_104400_Chrome.jpg)
