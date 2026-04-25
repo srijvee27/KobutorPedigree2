@@ -1,5 +1,7 @@
 # Pigeon Pedigree Generator
 
+![App Screenshot](Screenshot_20260425_104400_Chrome.jpg)
+
 Production-ready Next.js (App Router) pedigree certificate generator with:
 
 - Dynamic multi-level pedigree input form
